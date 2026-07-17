@@ -1,6 +1,11 @@
 <x-app-layout>
 
 <div class="max-w-7xl mx-auto px-4 py-6">
+    @if(session('success'))
+    <script>
+        alert("{{ session('success') }}");
+    </script>
+@endif
 
     <div class="flex flex-col md:flex-row gap-6 text-black mt-6">
 
@@ -23,12 +28,44 @@
             <p class="mt-4">
                 {{ $product['description'] }}
             </p>
-            <button class="bg-pink-500 text-white py-2 px-4 rounded-3xl 
-                        hover:scale-110 hover:bg-pink-800 
-                        transition-transform duration-300 
-                        w-1/2 sm:w-1/3">
-                Añadir a favoritos
-            </button>
+            @if($isFavorite)
+            <form action="{{ route('wishlist.destroy') }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <input
+                    type="hidden"
+                    name="product_id"
+                    value="{{ $product['id'] }}"
+                >
+                <button
+                    type="submit"
+                    class="bg-red-700 text-white py-2 px-4 rounded-3xl
+                        hover:scale-110 hover:bg-red-900
+                        transition-transform duration-300
+                        w-1/2 sm:w-1/3"
+                >
+                    Eliminar de favoritos
+                </button>
+            </form>
+            @else
+            <form action="{{ route('wishlist.store') }}" method="POST">
+                @csrf
+                <input
+                    type="hidden"
+                    name="product_id"
+                    value="{{ $product['id'] }}"
+                >
+                <button
+                    type="submit"
+                    class="bg-pink-500 text-white py-2 px-4 rounded-3xl
+                        hover:scale-110 hover:bg-pink-800
+                        transition-transform duration-300
+                        w-1/2 sm:w-1/3"
+                >
+                    Añadir a favoritos
+                </button>
+            </form>
+            @endif
         </div>
 
     </div>

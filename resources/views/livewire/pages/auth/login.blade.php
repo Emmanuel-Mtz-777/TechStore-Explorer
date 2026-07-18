@@ -68,4 +68,8 @@ new #[Layout('layouts.guest')] class extends Component
             </x-primary-button>
         </div>
     </form>
+
+    <div>
+        <span>Credenciales para admin: admin@example.com / admin123</span>
+    </div>
 </div>

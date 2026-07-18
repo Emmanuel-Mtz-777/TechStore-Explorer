@@ -24,35 +24,58 @@ class WishlistController extends Controller
             'product_id' => ['required', 'integer'],
         ]);
 
-        $response = Http::get(
-            "https://api.escuelajs.co/api/v1/products/{$request->product_id}"
-        );
+        try {
+            $response = Http::timeout(8)
+                ->retry(2, 200)
+                ->get("https://api.escuelajs.co/api/v1/products/{$request->product_id}");
 
-        if (! $response->successful()) {
-            return back()->with('error', 'Producto no encontrado.');
+            if ($response->notFound()) {
+                return back()->with('error', 'Producto no encontrado.');
+            }
+
+            if ($response->failed()) {
+                return back()->with('error', 'Error al consultar la API.');
+            }
+
+            $product = $response->json();
+
+            Wishlist::create([
+                'user_id' => auth()->id(),
+                'product_id' => $product['id'],
+                'product_name' => $product['title'],
+                'product_image' => $product['images'][0] ?? null,
+                'product_price' => $product['price'],
+                'category_id' => $product['category']['id'] ?? null,
+                'category_name' => $product['category']['name'] ?? null,
+            ]);
+
+            try {
+                Mail::to(auth()->user()->email)
+                    ->queue(new WishlistAddedMail($product));
+            } catch (\Throwable $e) {
+                Log::error('Error enviando correo de wishlist: ' . $e->getMessage());
+            }
+
+            return back()->with(
+                'success',
+                'El producto se añadió correctamente. Revisa tu correo de confirmación.'
+            );
+
+        } catch (\Throwable $e) {
+            Log::error('Error al consultar la API: ' . $e->getMessage());
+
+            return back()->with(
+                'error',
+                'No fue posible conectar con el servicio de productos. Intenta nuevamente.'
+            );
         }
-
-        $product = $response->json();
-
-        Wishlist::create([
-            'user_id' => auth()->id(),
-            'product_id' => $product['id'],
-            'product_name' => $product['title'],
-            'product_image' => $product['images'][0] ?? null,
-            'product_price' => $product['price'],
-            'category_id' => $product['category']['id'] ?? null,
-            'category_name' => $product['category']['name'] ?? null,
-        ]);
-
-        Mail::to(auth()->user()->email)
-            ->send(new WishlistAddedMail($product));
-
-        return back()->with('success', 'El producto se añadio correctamente. Revisa tu confirmacion por correo');
     }
 
     public function removeWishlist(Request $request)
     {
-        $request->validate(['product_id' => ['required', 'integer'],]);
+        $request->validate([
+            'product_id' => ['required', 'integer'],
+        ]);
 
         Wishlist::where('user_id', auth()->id())
             ->where('product_id', $request->product_id)
@@ -60,14 +83,14 @@ class WishlistController extends Controller
 
         try {
             Mail::to(auth()->user()->email)
-                ->send(new WishlistDeletedMail());
+                ->queue(new WishlistDeletedMail());
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            Log::error('Error enviando correo de eliminación: ' . $e->getMessage());
         }
 
         return back()->with(
             'success',
             'El producto se eliminó correctamente.'
         );
-            }
+    }
 }

@@ -6,8 +6,8 @@
 
             <img
                 src="{{ $product['images'][0] }}"
+                onerror="this.onerror=null;this.src='https://picsum.photos/seed/{{ $product['id'] }}/500/500';"
                 alt="{{ $product['title'] }}"
-                onerror="this.src='https://placehold.co/300x300?text=No+Image'"
                 class="w-full h-48 object-cover rounded"
             >
 

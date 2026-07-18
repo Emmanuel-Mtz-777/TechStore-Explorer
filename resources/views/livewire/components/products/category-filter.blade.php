@@ -1,40 +1,53 @@
-<div class="flex flex-col gap-3 px-4">
+<div class="flex flex-col gap-4">
 
-    <h2 class="font-bold text-2xl border-b border-black pb-2 mb-2">
+    <h2 class="text-2xl font-bold border-b pb-3">
         Filter Options
     </h2>
 
-    <h3 class="font-bold text-xl">Categories</h3>
+    <div>
 
-    <label class="flex items-center gap-2 cursor-pointer">
-        <input
-            type="radio"
-            wire:model.live="selectedCategory"
-            value=""
-            class="h-4 w-4"
-        >
+        <h3 class="font-semibold mb-3">
+            Categories
+        </h3>
 
-        <span>
-            Todas las categorías
-        </span>
-    </label>
+        <div class="flex flex-col gap-3">
 
+            <label class="flex items-center gap-3 cursor-pointer">
 
-    @foreach ($categories as $category)
+                <input
+                    type="radio"
+                    wire:model.live="selectedCategory"
+                    value=""
+                    class="h-4 w-4"
+                >
 
-        <label class="flex items-center gap-2 cursor-pointer">
-            <input
-                type="radio"
-                wire:model.live="selectedCategory"
-                value="{{ $category['id'] }}"
-                class="h-4 w-4"
-            >
+                <span class="text-sm">
+                    Todas las categorías
+                </span>
 
-            <span>
-                {{ $category['name'] }}
-            </span>
-        </label>
+            </label>
 
-    @endforeach
+            @foreach ($categories as $category)
+
+                <label class="flex items-center gap-3 cursor-pointer">
+
+                    <input
+                        type="radio"
+                        wire:model.live="selectedCategory"
+                        value="{{ $category['id'] }}"
+                        class="h-4 w-4"
+                    >
+
+                    <span class="text-sm break-words">
+                        {{ $category['name'] }}
+                    </span>
+
+                </label>
+
+            @endforeach
+
+        </div>
+
+    </div>
 
 </div>

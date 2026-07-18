@@ -5,7 +5,7 @@
 
             <img
                 src="{{ $item->product_image }}"
-                onerror="this.src='https://placehold.co/500x500?text=No+Image'"
+                onerror="this.onerror=null;this.src='https://picsum.photos/seed/{{ $item->product_id }}/500/500';"
                 class="w-20 h-20 object-cover rounded"
             >
 

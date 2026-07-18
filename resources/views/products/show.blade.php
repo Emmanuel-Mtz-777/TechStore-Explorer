@@ -10,8 +10,9 @@
     <div class="flex flex-col md:flex-row gap-6 text-black mt-6">
 
         <img
-            src="{{ $product['images'][0] }}"
-            onerror="this.src='https://placehold.co/500x500?text=No+Image'"
+            src="{{ $product['images'][0] ?? 'https://picsum.photos/500/500' }}"
+            onerror="this.onerror=null;this.src='https://picsum.photos/500/500';"
+            alt="{{ $product['title'] }}"
             class="rounded-lg"
         >
 
@@ -19,6 +20,7 @@
             <div class=" w-full border-b border-black pb-10 gap-4">
                 <h1 class="text-3xl font-extrabold">{{ $product['title'] }}</h1>
                 <span >{{ $product['category']['name'] }}</span>
+                
             </div>
             
             <p class="text-5xl font-extrabold mt-4">

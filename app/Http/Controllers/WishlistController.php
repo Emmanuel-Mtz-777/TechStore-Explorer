@@ -8,6 +8,7 @@ use App\Models\Wishlist;
 use App\Mail\WishlistAddedMail;
 use App\Mail\WishlistDeletedMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class WishlistController extends Controller
 {
@@ -46,18 +47,27 @@ class WishlistController extends Controller
         Mail::to(auth()->user()->email)
             ->send(new WishlistAddedMail($product));
 
-        return back()->with('success', 'Product added to wishlist successfully.');
+        return back()->with('success', 'El producto se añadio correctamente. Revisa tu confirmacion por correo');
     }
 
     public function removeWishlist(Request $request)
     {
         $request->validate(['product_id' => ['required', 'integer'],]);
+
         Wishlist::where('user_id', auth()->id())
             ->where('product_id', $request->product_id)
             ->delete();
 
-        Mail::to(auth()->user()->email)->send(new WishlistDeletedMail());
+        try {
+            Mail::to(auth()->user()->email)
+                ->send(new WishlistDeletedMail());
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage());
+        }
 
-        return back()->with('success', 'Product removed from wishlist successfully.');
-    }
+        return back()->with(
+            'success',
+            'El producto se eliminó correctamente.'
+        );
+            }
 }

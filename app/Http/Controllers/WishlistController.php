@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Wishlist;
+use App\Mail\WishlistAddedMail;
+use App\Mail\WishlistDeletedMail;
+use Illuminate\Support\Facades\Mail;
 
 class WishlistController extends Controller
 {
@@ -28,6 +31,8 @@ class WishlistController extends Controller
             'category_name' => $product['category']['name'] ?? null,
         ]);
 
+        Mail::to(auth()->user()->email)->send(new WishlistAddedMail($product));
+
         return back()->with('success', 'Product added to wishlist successfully.');
     }
 
@@ -36,6 +41,8 @@ class WishlistController extends Controller
         Wishlist::where('user_id', auth()->id())
             ->where('product_id', $request->product_id)
             ->delete();
+
+        Mail::to(auth()->user()->email)->send(new WishlistDeletedMail());
 
         return back()->with('success', 'Product removed from wishlist successfully.');
     }

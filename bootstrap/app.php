@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'admin.api' => \App\Http\Middleware\AdminApiMiddleware::class,
     ]);
+    $middleware->trustProxies(at:'*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

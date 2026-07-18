@@ -113,6 +113,16 @@ npm run build
 php artisan serve
 ```
 
+### 8. Ejecutar el worker de colas
+
+El proyecto utiliza las **colas de Laravel** para procesar el envío de correos de manera asíncrona. Para que los correos generados por la aplicación sean enviados correctamente, es necesario mantener activo el worker de Laravel.
+
+Ejecutar en una terminal adicional:
+
+```bash
+php artisan queue:work
+```
+
 La aplicación estará disponible en:
 
 ```
@@ -158,7 +168,52 @@ Una vez configuradas las credenciales SMTP en el archivo `.env`, los correos env
 
 ![Bandeja de Mailtrap](docs/Mailtrap.png)
 ---
+## Despliegue en Railway
 
+[Repositorio Gitlab](https://gitlab.com/Leviek77/techstore-explorer.git)
+
+Para realizar el despliegue del proyecto se creó un **repositorio espejo en GitHub**, debido a que la integración directa entre GitLab y Railway no se encontraba disponible para este proyecto.
+
+El repositorio espejo mantiene sincronizado el código fuente y permite que Railway realice los despliegues automáticos mediante la integración con GitHub.
+
+La aplicación se encuentra desplegada en **Railway** utilizando una arquitectura compuesta por tres servicios:
+
+- **Servicio Web:** Ejecuta la aplicación Laravel y atiende las peticiones HTTP de los usuarios.
+- **Base de datos MySQL:** Gestiona la persistencia de la información de la aplicación.
+- **Worker:** Ejecuta `php artisan queue:work` de forma continua para procesar tareas asíncronas, como el envío de correos electrónicos mediante la cola de Laravel.
+
+Esta configuración permite separar las responsabilidades de la aplicación, evitando bloquear las solicitudes del usuario mientras se ejecutan procesos secundarios como el envío de correos.
+
+### Arquitectura del despliegue
+
+![Arquitectura en Railway](docs/Railway.png)
+
+---
+## Colección de Postman
+
+Para facilitar las pruebas de la API se proporciona una colección de Postman con los endpoints disponibles del proyecto.
+
+La colección se encuentra disponible en el siguiente enlace:
+
+[Postman Collection](https://hemmanuelmtz777-3951561.postman.co/workspace/Emmanuel-Martinez's-Workspace~4e059709-7713-47f7-80be-48cea93a5596/collection/48889292-550d0864-432b-4b94-9e42-bf4d6920de48?action=share&creator=48889292)
+
+> La colección se comparte en modo lectura, por lo que los usuarios no cuentan con permisos de edición. Sin embargo, es posible ejecutar todas las peticiones disponibles, realizar pruebas de los endpoints y configurar las variables necesarias dentro de su propia instancia de Postman.
+
+### Autenticación
+
+Antes de ejecutar las peticiones protegidas, es necesario autenticarse mediante el endpoint de login.
+
+El token generado por la autenticación deberá copiarse y configurarse en Postman para las demás solicitudes:
+
+1. Ejecutar la petición de login.
+2. Copiar el token recibido en la respuesta.
+3. En las peticiones que requieran autenticación, ir a la pestaña **Authorization**.
+4. Seleccionar el tipo de autenticación **Bearer Token**.
+5. Colocar el token obtenido en el campo correspondiente.
+
+Cada usuario debe configurar su propio token dentro de Postman, ya que estos valores son personales y no se incluyen dentro de la colección compartida.
+
+---
 
 
 # API REST

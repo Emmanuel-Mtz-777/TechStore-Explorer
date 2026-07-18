@@ -19,7 +19,19 @@ class WishlistController extends Controller
 
     public function addWishlist(Request $request)
     {
-        $product = Http::get("https://api.escuelajs.co/api/v1/products/{$request->product_id}")->json();
+        $request->validate([
+            'product_id' => ['required', 'integer'],
+        ]);
+
+        $response = Http::get(
+            "https://api.escuelajs.co/api/v1/products/{$request->product_id}"
+        );
+
+        if (! $response->successful()) {
+            return back()->with('error', 'Producto no encontrado.');
+        }
+
+        $product = $response->json();
 
         Wishlist::create([
             'user_id' => auth()->id(),
@@ -31,13 +43,15 @@ class WishlistController extends Controller
             'category_name' => $product['category']['name'] ?? null,
         ]);
 
-        Mail::to(auth()->user()->email)->send(new WishlistAddedMail($product));
+        Mail::to(auth()->user()->email)
+            ->send(new WishlistAddedMail($product));
 
         return back()->with('success', 'Product added to wishlist successfully.');
     }
 
     public function removeWishlist(Request $request)
     {
+        $request->validate(['product_id' => ['required', 'integer'],]);
         Wishlist::where('user_id', auth()->id())
             ->where('product_id', $request->product_id)
             ->delete();

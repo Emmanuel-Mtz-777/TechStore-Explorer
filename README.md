@@ -311,4 +311,4 @@ En particular, la IA me ayudó en:
 
 La lógica de negocio, la arquitectura del proyecto, la implementación de la API REST con Laravel Sanctum, el sistema de roles, la wishlist, el dashboard, la autenticación, la integración con Mailtrap y las decisiones de diseño fueron desarrolladas y adaptadas manualmente.
 
-Aunque hubo un problema que no pude solucionar y era que al parecer mi equipo bloqueava las imagenes de la api, se implemento una solucion donde si falla al traer la imagen se utiliza otra.
+Aunque hubo un problema que no pude solucionar y era que al parecer mi equipo bloqueava las imagenes de la api, se implemento una solucion donde si falla al traer la imagen se utiliza otra, aunque aclaro que en produccion no sucede este problema.

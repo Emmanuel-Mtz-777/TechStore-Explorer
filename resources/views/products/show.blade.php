@@ -8,13 +8,15 @@
 @endif
 
     <div class="flex flex-col md:flex-row gap-6 text-black mt-6">
-
-        <img
+        <div class="w-full md:w-1/2">
+            <img
             src="{{ $product['images'][0] ?? 'https://picsum.photos/500/500' }}"
             onerror="this.onerror=null;this.src='https://picsum.photos/500/500';"
             alt="{{ $product['title'] }}"
-            class="rounded-lg"
+            class="rounded-lg w-full h-auto object-cover"
         >
+        </div>
+        
 
         <div class="flex flex-col gap-4 w-full">
             <div class=" w-full border-b border-black pb-10 gap-4">

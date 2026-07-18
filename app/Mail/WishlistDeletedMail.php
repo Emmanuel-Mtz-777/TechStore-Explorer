@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class WishlistDeletedMail extends Mailable
+class WishlistDeletedMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 

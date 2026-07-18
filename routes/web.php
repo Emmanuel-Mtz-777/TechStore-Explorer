@@ -6,9 +6,11 @@ use App\Http\Controllers\WishlistController;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DashBoardController;
+use App\Http\Controllers\IndexController;
 
 
-Route::view('/', 'welcome');
+Route::get('/', [IndexController::class, 'index'])
+    ->name('welcome');
 
 Route::get('/products/{id}', [ProductController::class, 'getProductById'])
     ->name('products.show');

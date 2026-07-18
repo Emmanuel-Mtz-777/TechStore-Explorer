@@ -1,4 +1,11 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('wishlist-removed', (event) => {
+                alert(event.message);
+            });
+        });
+    </script>
     @forelse($wishlistItems as $item)
 
         <div class="border rounded-lg p-4 flex flex-col h-full">

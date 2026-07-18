@@ -148,6 +148,19 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 ---
 
+## Pruebas de correo con Mailtrap
+
+Para el desarrollo del proyecto se utilizó **Mailtrap** con un **Sandbox SMTP**, lo que permite interceptar todos los correos enviados por la aplicación sin entregarlos a direcciones reales.
+
+Una vez configuradas las credenciales SMTP en el archivo `.env`, los correos enviados al agregar o eliminar productos de la wishlist pueden visualizarse directamente desde la bandeja de entrada (Inbox) del Sandbox de Mailtrap.
+
+### Bandeja de entrada
+
+![Bandeja de Mailtrap](docs/Mailtrap.png)
+---
+
+
+
 # API REST
 
 La API utiliza autenticación mediante **Laravel Sanctum**.

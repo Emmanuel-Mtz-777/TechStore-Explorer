@@ -1,115 +1,314 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TechStore Explorer
 
+Aplicación desarrollada con Laravel que permite explorar productos, gestionar una wishlist, autenticación de usuarios, envío de correos mediante Mailtrap, dashboard administrativo y una API REST protegida con Laravel Sanctum.
 
+---
 
-<p align="center">
+# Requisitos
 
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+* PHP 8.5+
+* Composer
+* Node.js 20+
+* pnpm (recomendado) o npm
+* MySQL
+* Git
 
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+---
 
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+# Instalación
 
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-
-</p>
-
-
-
-## About Laravel
-
-
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-
-- [Robust background job processing](https://laravel.com/docs/queues).
-
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-
-
-## Learning Laravel
-
-
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-
-
-## Agentic Development
-
-
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-
+## 1. Clonar el repositorio
 
 ```bash
-
-composer require laravel/boost --dev
-
-
-
-php artisan boost:install
-
+git clone git@gitlab.com:usuario/TechStore-Explorer.git
+cd TechStore-Explorer
 ```
 
+## 2. Instalar dependencias
 
+### Backend
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+```bash
+composer install
+```
 
+### Frontend
 
+El proyecto fue desarrollado utilizando **pnpm**, aunque también es compatible con **npm**.
 
-## Contributing
+Con **pnpm** (recomendado):
 
+```bash
+pnpm install
+```
 
+o con **npm**:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+npm install
+```
 
+## 3. Configurar variables de entorno
 
+Crear el archivo `.env`
 
-## Code of Conduct
+```bash
+cp .env.example .env
+```
 
+Generar la llave de la aplicación
 
+```bash
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 4. Configurar la base de datos
 
+Actualizar las variables correspondientes en `.env`
 
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=techexplorer
+DB_USERNAME=root
+DB_PASSWORD=password
+```
 
-## Security Vulnerabilities
+## 5. Ejecutar migraciones y seeders
 
+```bash
+php artisan migrate --seed
+```
 
+## 6. Compilar assets
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Con **pnpm** (recomendado):
 
+```bash
+pnpm dev
+```
 
+Para producción:
 
-## License
+```bash
+pnpm build
+```
 
+También es posible utilizar **npm**:
 
+```bash
+npm run dev
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+o
+
+```bash
+npm run build
+```
+
+## 7. Levantar el servidor
+
+```bash
+php artisan serve
+```
+
+La aplicación estará disponible en:
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+# Variables de entorno de ejemplo
+
+```env
+APP_NAME=TechStore
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://127.0.0.1:8000
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=techexplorer
+DB_USERNAME=root
+DB_PASSWORD=password
+
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_username
+MAIL_PASSWORD=your_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=no-reply@example.com
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+---
+
+# API REST
+
+La API utiliza autenticación mediante **Laravel Sanctum**.
+
+## Autenticación
+
+### Registrar usuario
+
+```
+POST /api/register
+```
+
+### Iniciar sesión
+
+```
+POST /api/login
+```
+
+Devuelve un **Bearer Token** que debe enviarse en los endpoints protegidos.
+
+---
+
+## Wishlist
+
+**Requiere autenticación.**
+
+### Obtener wishlist
+
+```
+GET /api/wishlist
+```
+
+### Agregar producto
+
+```
+POST /api/wishlist
+```
+
+Body:
+
+```json
+{
+    "product_id": 1
+}
+```
+
+### Eliminar producto
+
+```
+DELETE /api/wishlist
+```
+
+Body:
+
+```json
+{
+    "product_id": 1
+}
+```
+
+---
+
+## Roles
+
+**Requiere:**
+
+* Bearer Token
+* Usuario con rol **admin**
+
+### Obtener roles
+
+```
+GET /api/roles
+```
+
+### Crear rol
+
+```
+POST /api/roles
+```
+
+### Obtener un rol
+
+```
+GET /api/roles/{id}
+```
+
+### Actualizar rol
+
+```
+PUT /api/roles/{id}
+```
+
+### Eliminar rol
+
+```
+DELETE /api/roles/{id}
+```
+
+---
+
+# Credenciales de prueba
+
+## Administrador
+
+```
+Email:
+admin@example.com
+
+Password:
+admin123
+```
+
+## Cliente
+
+```
+Email:
+test@example.com
+
+Password:
+customer123
+```
+
+---
+
+# Autenticación de la API
+
+Después de iniciar sesión, el token debe enviarse en cada petición protegida mediante el encabezado:
+
+```
+Authorization: Bearer TU_TOKEN
+```
+
+---
+
+# Tecnologías utilizadas
+
+* Laravel 13
+* Livewire
+* Vue 3
+* Tailwind CSS
+* Laravel Sanctum
+* Mailtrap
+* MySQL
+* Chart.js
+* Vue Chart.js
+
+---
+
+# Uso de IA
+
+Durante el desarrollo utilicé herramientas de IA como apoyo para resolver dudas técnicas, acelerar tareas repetitivas y comprender tecnologías con las que tenía poca experiencia previa. Todas las sugerencias fueron revisadas y adaptadas antes de incorporarlas al proyecto.
+
+En particular, la IA me ayudó en:
+
+* Resolver un problema de configuración de Git al migrar el repositorio de HTTPS a SSH, ya que inicialmente no podía subir cambios a GitLab.
+* Revisar la ortografía y redacción de los mensajes de commit siguiendo buenas prácticas.
+* Analizar errores de Laravel, PHP y otras herramientas para comprender el origen del problema y obtener posibles soluciones antes de implementarlas manualmente.
+* Comprender el flujo de trabajo de Livewire, tecnología con la que no tenía experiencia previa, especialmente para decidir cuándo reutilizar componentes y cuándo desarrollar una solución desde cero.
+* Utilizar sugerencias y autocompletados durante el desarrollo. No todas las sugerencias fueron aceptadas, ya que en ocasiones proponían importaciones o implementaciones incorrectas que fueron descartadas tras revisarlas.
+
+La lógica de negocio, la arquitectura del proyecto, la implementación de la API REST con Laravel Sanctum, el sistema de roles, la wishlist, el dashboard, la autenticación, la integración con Mailtrap y las decisiones de diseño fueron desarrolladas y adaptadas manualmente.
+
+Aunque hubo un problema que no pude solucionar y era que al parecer mi equipo bloqueava las imagenes de la api, se implemento una solucion donde si falla al traer la imagen se utiliza otra.

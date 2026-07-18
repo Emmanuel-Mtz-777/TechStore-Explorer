@@ -26,7 +26,7 @@ class WishlistController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'product_id' => ['required']
+            'product_id' => ['required', 'integer']
         ]);
 
 
@@ -61,7 +61,7 @@ class WishlistController extends Controller
     public function destroy(Request $request)
     {
         $request->validate([
-            'product_id' => ['required']
+            'product_id' => ['required', 'integer']
         ]);
 
 

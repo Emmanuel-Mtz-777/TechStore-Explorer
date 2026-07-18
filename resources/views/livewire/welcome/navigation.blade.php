@@ -1,41 +1,60 @@
 <nav class="-mx-3 flex flex-1 justify-between items-center">
 
-    <a href="{{ url('/') }}" class="text-2xl font-bold text-white text-start">
+    <a href="{{ url('/') }}" class="text-2xl font-bold text-white">
         TechStore
     </a>
 
-    <div class="flex justify-around gap-3 ">
+    <div class="flex items-center gap-3">
+
         @auth
+
+            @if(auth()->user()->role?->name === 'admin')
                 <a
-                    href="{{ url('/dashboard') }}"
-                    class="rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                    href="{{ route('dashboard') }}"
+                    class="rounded-md px-3 py-2 text-white transition hover:text-black/70"
                 >
                     Dashboard
                 </a>
-                <a
-                    href="{{ url('/wishlist') }}"
-                    class="rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                >
-                    Wishlist
-                </a>
-            @else
-                <a
-                    href="{{ route('login') }}"
-                    class="rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                >
-                    Log in
-                </a>
-
-                @if (Route::has('register'))
-                    <a
-                        href="{{ route('register') }}"
-                        class="rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                    >
-                        Register
-                    </a>
             @endif
+
+            <a
+                href="{{ route('wishlist') }}"
+                class="rounded-md px-3 py-2 text-white transition hover:text-black/70"
+            >
+                Wishlist
+            </a>
+
+            <form method="POST" action="{{ route('logout') }}" class="flex">
+                @csrf
+
+                <button
+                    type="submit"
+                    class="rounded-md px-3 py-2 text-white transition hover:text-black/70"
+                >
+                    Logout
+                </button>
+            </form>
+
+        @else
+
+            <a
+                href="{{ route('login') }}"
+                class="rounded-md px-3 py-2 text-white transition hover:text-black/70"
+            >
+                Log in
+            </a>
+
+            @if(Route::has('register'))
+                <a
+                    href="{{ route('register') }}"
+                    class="rounded-md px-3 py-2 text-white transition hover:text-black/70"
+                >
+                    Register
+                </a>
+            @endif
+
         @endauth
+
     </div>
 
-    
 </nav>

@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
+use Illuminate\Auth\Events\Logout;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DashBoardController;
+
 
 Route::view('/', 'welcome');
 
@@ -22,11 +26,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('dashboard');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+Route::post('/logout', function () {
+
+    Auth::logout();
+
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
+    return redirect('/');
+
+})->middleware('auth')->name('logout');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified', 'admin'])
+    ->name('dashboard');
 
 require __DIR__.'/auth.php';

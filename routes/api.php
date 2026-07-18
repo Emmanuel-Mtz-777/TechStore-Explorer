@@ -12,22 +12,23 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/wishlist', [WishlistController::class, 'index']);
+
+    Route::post('/wishlist', [WishlistController::class, 'store']);
+
+    Route::delete('/wishlist', [WishlistController::class, 'destroy']);
+});
+
+Route::middleware(['auth:sanctum', 'admin.api'])->group(function () {
+
+    Route::get('/roles/', [RoleController::class, 'index']);
 
     Route::post('/roles', [RoleController::class, 'store']);
-
-    Route::get('/roles', [RoleController::class, 'index']);
 
     Route::get('/roles/{role}', [RoleController::class, 'show']);
 
     Route::put('/roles/{role}', [RoleController::class, 'update']);
 
     Route::delete('/roles/{role}', [RoleController::class, 'destroy']);
-
-    Route::get('/wishlist', [WishlistController::class, 'index']);
-
-    Route::post('/wishlist', [WishlistController::class, 'store']);
-
-    Route::delete('/wishlist', [WishlistController::class, 'destroy']);
-
 
 });

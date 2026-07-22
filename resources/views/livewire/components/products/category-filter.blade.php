@@ -12,16 +12,16 @@
 
         <div class="flex flex-col gap-3">
 
-            <label class="flex items-center gap-3 cursor-pointer">
+            <label class="flex items-start gap-3 cursor-pointer">
 
                 <input
                     type="radio"
                     wire:model.live="selectedCategory"
                     value=""
-                    class="h-4 w-4"
+                    class="h-4 w-4 mt-1 shrink-0"
                 >
 
-                <span class="text-sm">
+                <span class="text-sm min-w-0 break-words">
                     Todas las categorías
                 </span>
 
@@ -29,16 +29,16 @@
 
             @foreach ($categories as $category)
 
-                <label class="flex items-center gap-3 cursor-pointer">
+                <label class="flex items-start gap-3 cursor-pointer">
 
                     <input
                         type="radio"
                         wire:model.live="selectedCategory"
                         value="{{ $category['id'] }}"
-                        class="h-4 w-4"
+                        class="h-4 w-4 mt-1 shrink-0"
                     >
 
-                    <span class="text-sm break-words">
+                    <span class="text-sm min-w-0 break-words">
                         {{ $category['name'] }}
                     </span>
 
